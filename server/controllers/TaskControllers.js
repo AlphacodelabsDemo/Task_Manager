@@ -1,4 +1,4 @@
-const Task = require('../model/TaskModel')
+const Task = require('../model/Task')
 const mongoose = require('mongoose')
 
 
@@ -19,6 +19,26 @@ const deleteTask = async (req,res) => {
     res.status(200).json(task)
 }
 
-module.exports = {
-    deleteTask
-}
+
+//create task
+
+const postTask = async (req, res) => {
+    try {
+      const { description } = req.body;
+      if (!description) {
+        return res.status(400).json({ status: false, msg: "Description of task not found" });
+      }
+      const task = await Task.create({ user: req.user.id, description });
+      res.status(200).json({ task, status: true, msg: "Task created successfully.." });
+    }
+    catch (err) {
+      console.error(err);
+      return res.status(500).json({ status: false, msg: "Internal Server Error" });
+    }
+  }
+
+  module.exports = {
+    deleteTask,
+    postTask
+  };
+  
