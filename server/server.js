@@ -1,11 +1,13 @@
 // Import required modules
 const express = require("express");
 const AuthRoutes = require("./routes/authRoutes");
-const taskRoutes = require('./routes/taskRoutes')
+const TaskRoutes = require('./routes/taskRoutes')
+// Import database connection function
+const dbConnection = require("./config/database");
 
 //express app
-const cors = require("cors");
 const app = express();
+const cors = require("cors");
 
 // Load environment variables
 require("dotenv").config();
@@ -20,28 +22,10 @@ app.use(cors());
 
 //routes
 app.use('/api/auth',AuthRoutes);
-app.use('/api/tasks',taskRoutes)
-
-
-// Import database connection function
-const dbConnection = require("./config/database");
-
-
-
-// middlewares
-// Import database connection function
-const dbConnection = require("./config/database");
-
-
-// Import routes
-const authRoutes = require("./routes/authRoutes");
-
-// Register routes
-app.use('/api/auth', authRoutes);
+app.use('/api/tasks',TaskRoutes)
 
 // Get the port from environment variables
 const PORT = process.env.PORT || 8080; // Provide a default port if not specified in the environment
-
 
 // Function to start the server
 const startServer = async () => {
