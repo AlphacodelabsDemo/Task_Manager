@@ -1,12 +1,13 @@
 const express = require('express')
 const {
-    deleteTask,
-} =require('../controllers/taskControllers')
+    deleteTask, postTask
+} =require('../controllers/TaskControllers')
 
 const router = express.Router()
 
 
 //Delete a task
-router.delete('/:id',deleteTask)
+router.delete('/:id',deleteTask);
+router.post("/:id", postTask);
 
 module.exports = router
