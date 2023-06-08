@@ -21,4 +21,16 @@ const authValidate = (data) => {
     return schema.validate(data);
   };
 
-module.exports = {userValidate , authValidate};
+
+  const taskValidate = (data) => {
+    const schema = Joi.object({
+      user: Joi.string().required(),
+      description: Joi.string().required(),
+      dueDate: Joi.date().required(),
+      completed: Joi.boolean()
+    });
+  
+    return schema.validate(data);
+  };
+
+module.exports = {userValidate , authValidate ,taskValidate};

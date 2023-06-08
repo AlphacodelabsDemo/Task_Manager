@@ -1,13 +1,15 @@
 const express = require('express')
-const {
-    deleteTask, postTask
-} =require('../controllers/TaskControllers')
+const {deleteTask, postTask ,updateTask} =require('../controllers/TaskControllers');
+const verifyToken = require("../middleware/verifyToken");
+
 
 const router = express.Router()
 
 
 //Delete a task
-router.delete('/:id',deleteTask);
-router.post("/:id", postTask);
 
-module.exports = router
+router.post("/create",verifyToken, postTask);
+router.delete('/:id',deleteTask);
+router.put('/:id',updateTask);
+
+module.exports = router;

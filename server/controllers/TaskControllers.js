@@ -1,5 +1,8 @@
-const Task = require('../model/Task')
-const mongoose = require('mongoose')
+const Task = require('../model/Task');
+const express = require("express");
+const router = express.Router();
+const mongoose = require('mongoose');
+const {taskValidate} = require("../utils/validaters");
 
 
 //delete workout
@@ -20,25 +23,53 @@ const deleteTask = async (req,res) => {
 }
 
 
-//create task
+const postTask= async (req, res) => {
+  try {
+    const { aim, dueDate, completed } = req.body;
+    const user = req.user._id;
 
-const postTask = async (req, res) => {
-    try {
-      const { description } = req.body;
-      if (!description) {
-        return res.status(400).json({ status: false, msg: "Description of task not found" });
-      }
-      const task = await Task.create({ user: req.user.id, description });
-      res.status(200).json({ task, status: true, msg: "Task created successfully.." });
-    }
-    catch (err) {
-      console.error(err);
-      return res.status(500).json({ status: false, msg: "Internal Server Error" });
-    }
+    // Create a new task using the Task model
+    const task = new Task({
+      user,
+      aim,
+      dueDate,
+      completed
+    });
+    
+
+    // Save the task to the database
+    await task.save();
+
+    res.status(201).json({task});
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create the task' });
   }
+};
 
-  module.exports = {
-    deleteTask,
-    postTask
-  };
+
+
   
+
+//update workout
+
+const updateTask = async (req, res) => {
+    const { id } = req.params;
+  
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid id, no such Task" });
+    }
+  
+    const updatedTask = await Task.findOneAndUpdate({ _id: id }, req.body, {
+      new: true,
+    });
+  
+    if (!updatedTask) {
+      return res.status(404).json({ error: "No such workout" });
+    }
+  
+    res.status(200).json(updatedTask);
+  };
+
+module.exports = {
+    deleteTask ,updateTask,postTask
+}

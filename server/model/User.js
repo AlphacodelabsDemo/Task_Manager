@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
+const moment = require('moment-timezone');
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
+
 
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  joiningTime: { type: String, default: moment().tz('Asia/Kolkata').format() },
   tokens: [
     {
       token: {
