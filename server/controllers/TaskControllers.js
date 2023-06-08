@@ -70,6 +70,34 @@ const updateTask = async (req, res) => {
     res.status(200).json(updatedTask);
   };
 
+  // Get all tasks for a user
+  const getTasks = async (req, res) => {
+    try {
+      const tasks = await Task.find({});
+      res.status(200).json({ tasks, status: true, msg: "Tasks found successfully.." });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ status: false, msg: "Internal Server Error" });
+    }
+  };
+  
+  //get user task
+
+  const getTask = async (req, res) => {
+    try {
+      const tasks = await Task.find({ user: req.user.id });
+      res.status(200).json({ tasks, status: true, msg: "Tasks found successfully.." });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ status: false, msg: "Internal Server Error" });
+    }
+  };
+  
+  
+  
+
+
+
 module.exports = {
-    deleteTask ,updateTask,postTask
+    deleteTask ,updateTask, postTask, getTasks, getTask
 }
