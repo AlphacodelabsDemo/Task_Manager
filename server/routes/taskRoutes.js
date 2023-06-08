@@ -7,8 +7,8 @@ const router = express.Router()
 
 
 //Delete a task
-
-router.post("/create",verifyToken, postTask);
+////,verifyToken
+router.post("/create", postTask);
 router.delete('/:id',deleteTask);
 router.put('/:id',updateTask);
 

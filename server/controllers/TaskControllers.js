@@ -25,15 +25,15 @@ const deleteTask = async (req,res) => {
 
 const postTask= async (req, res) => {
   try {
-    const { aim, dueDate, completed } = req.body;
-    const user = req.user._id;
+    const { aim, dueDate, status } = req.body;
+    // const user = req.user._id;
 
     // Create a new task using the Task model
     const task = new Task({
-      user,
+      
       aim,
       dueDate,
-      completed
+      status
     });
     
 
