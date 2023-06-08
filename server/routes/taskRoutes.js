@@ -1,5 +1,5 @@
 const express = require('express')
-const {deleteTask, postTask ,updateTask} =require('../controllers/TaskControllers');
+const {deleteTask, postTask ,updateTask, getTasks, getTask} =require('../controllers/TaskControllers');
 const verifyToken = require("../middleware/verifyToken");
 
 
@@ -11,5 +11,7 @@ const router = express.Router()
 router.post("/create",verifyToken, postTask);
 router.delete('/:id',deleteTask);
 router.put('/:id',updateTask);
+router.get("/", verifyToken, getTasks)
+router.get("/task", verifyToken, getTask)
 
 module.exports = router;
