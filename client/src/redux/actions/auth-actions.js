@@ -12,6 +12,7 @@ export const postLoginData = (email, password) => async (dispatch) => {
     });
     localStorage.setItem('token', data.token);
     toast.success(data.msg);
+    
 
   }
   catch (error) {
