@@ -39,12 +39,13 @@ const LoginForm = ({ redirectUrl }) => {
     if (errors) {
       return;
     }
-
+  
     try {
       const response = await api.post('/auth/signin', formData);
       dispatch(postLoginData(response.data));
       toast.success('Login successful');
-      navigate('/profile')
+      console.log('Token:', response.data.token); // Console the token
+      navigate('/profile');
     } catch (error) {
       console.error(error);
       if (error.response) {
@@ -57,6 +58,7 @@ const LoginForm = ({ redirectUrl }) => {
       }
     }
   };
+  
 
   const validateForm = () => {
     const errors = {};

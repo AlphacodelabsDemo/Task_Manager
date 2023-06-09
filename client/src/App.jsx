@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
+import { BrowserRouter, Route, Routes, } from "react-router-dom";
 import Home from './pages/home';
 import Signup from './pages/signup';
 import Login from './pages/login';
@@ -11,6 +11,7 @@ import Error from './pages/error';
 import { saveProfile } from "./redux/actions/auth-actions";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function App(){
