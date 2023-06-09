@@ -16,14 +16,18 @@ const taskSchema = new mongoose.Schema({
   dueDate: {
     type: String,
     required: true
-  },
-  status: {
-    type: Boolean,
-    default: false
   }
-, taskCreated : { type: String, 
+, 
+updatedStatus:{
+  type:String,
+  default:false
+},
+taskCreated : { 
+  type: String, 
   default: moment().tz('Asia/Kolkata').format() 
-}});
+}
+
+});
 
 const Task = mongoose.model("Task", taskSchema);
 module.exports = Task;
