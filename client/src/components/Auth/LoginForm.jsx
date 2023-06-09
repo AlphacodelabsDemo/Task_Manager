@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../api/api';
-import Input from '../utils/input';
+import api from '../../api/api';
+import Input from '../../utils/input';
 import { useDispatch, useSelector } from 'react-redux';
-import { postLoginData } from '../redux/actions/auth-actions';
-import Loader from '../utils/loader';
+import { postLoginData } from '../../redux/actions/auth-actions';
+import Loader from '../../utils/loader';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,6 +20,7 @@ const LoginForm = ({ redirectUrl }) => {
   const { loading, isLoggedIn, error } = authState;
   const dispatch = useDispatch();
 
+  
   useEffect(() => {
     if (isLoggedIn) {
       navigate(redirectUrl || '/');
@@ -90,7 +91,7 @@ const LoginForm = ({ redirectUrl }) => {
             Email
           </label>
           <Input
-            type="text"
+            type="email"
             name="email"
             id="email"
             value={formData.email}

@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Input from '../utils/input';
-import Loader from '../utils/loader';
+import Input from '../../utils/input';
+import Loader from '../../utils/loader';
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -16,7 +16,6 @@ const SignupForm = () => {
     email: '',
     password: '',
   });
-
 
   const handleChange = (e) => {
     setFormData((prevFormData) => ({
@@ -44,7 +43,12 @@ const SignupForm = () => {
       navigate('/signin');
     } catch (error) {
       console.error(error);
-      toast.error('An error occurred. Please try again.');
+      if (error.response && error.response.status === 409) {
+        toast.error('Email ID already exists. Please sign in.');
+        navigate('/signin');
+      } else {
+        toast.error('An error occurred. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +80,7 @@ const SignupForm = () => {
     } else if (!hasCapitalLetter(formData.password)) {
       errors.password = 'Password should contain at least 1 capital letter';
     } else if (!hasLowerCaseLetter(formData.password)) {
-      errors.password = 'Password should contain at least 1 small letter';
+      errors.password = 'Password should contain at least 1 lowercase letter';
     }
 
     return errors;
@@ -154,7 +158,7 @@ const SignupForm = () => {
           <div className='mb-4'>
             <label htmlFor='email'>Email</label>
             <Input
-              type='text'
+              type='email'
               name='email'
               id='email'
               value={formData.email}
