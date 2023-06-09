@@ -37,7 +37,7 @@ const SignupForm = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/signup', formData);
+      const response = await axios.post('http://localhost:8081/api/auth/signup', formData);
       console.log(response.data);
       toast.success('Signup successful! Please sign in.');
       navigate('/signin');
