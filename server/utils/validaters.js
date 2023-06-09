@@ -33,4 +33,13 @@ const authValidate = (data) => {
     return schema.validate(data);
   };
 
-module.exports = {userValidate , authValidate ,taskValidate};
+  const projectValidate = (data) => {
+    const schema = Joi.object({
+      name: Joi.string().required(),
+      tasks: Joi.array().items(Joi.string()).required(),
+      collaborators: Joi.array().items(Joi.string())
+    });
+    return schema.validate(data);
+  };
+  
+  module.exports = { userValidate, authValidate, taskValidate, projectValidate };

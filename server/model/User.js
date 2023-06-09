@@ -18,6 +18,12 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  projects: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Project',
+    },
+  ],
 });
 
 userSchema.methods.generateAuthToken = async function () {
