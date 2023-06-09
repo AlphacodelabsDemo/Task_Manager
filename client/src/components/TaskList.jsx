@@ -4,7 +4,7 @@ import axios from 'axios';
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [editableTask, setEditableTask] = useState(null);
-  const statusOptions = ['todo', 'doing', 'done'];
+  
   
 
 
@@ -97,8 +97,8 @@ const TaskList = () => {
       {tasks.length > 0 ? (
         <ul>
           {tasks.map((task) => (
-            <li key={task.id}>
-              {editableTask && editableTask.id === task.id ? (
+            <li key={task._id}>
+              {editableTask && editableTask._id === task._id ? (
                 <div>
                   <input
                     type="text"
@@ -112,12 +112,12 @@ const TaskList = () => {
                     value={editableTask.dueDate}
                     onChange={handleInputChange}
                   />
-                  <input
-                    type="text"
-                    name="updatedStatus"
-                    value={editableTask.updatedStatus}
-                    onChange={handleInputChange}
-                  />
+                  
+                    <select type="text" name='updatedStatus' id="status" onChange={handleInputChange}>
+                     <option value="todo">Todo</option>
+                     <option value="doing">Doing</option>
+                     <option value="done">Done</option>
+                    </select>
                   <button onClick={handleSave}>Save</button>
                   <button onClick={handleCancel}>Cancel</button>
                 </div>

@@ -8,7 +8,6 @@ import {MdDoneOutline} from 'react-icons/md';
 const CreateTask = () => {
   const navigate = useNavigate();
   const [aim, setAim] = useState('');
-  const [status, setStatus] = useState(false);
   const [dueDate, setDueDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const statusOptions = ['todo', 'doing', 'done']; ////------
@@ -47,7 +46,7 @@ const CreateTask = () => {
         {
           aim,
           dueDate: formattedDueDate,
-          status,
+          
           updatedStatus
         },
         {
@@ -60,9 +59,9 @@ const CreateTask = () => {
 
       // Reset the form and set the submitted flag
       setAim('');
-    //   setDueDate(new Date());
+    
       setDueDate(new Date());
-      setStatus(false);
+      
       window.location.reload();
       
 
@@ -81,7 +80,7 @@ const CreateTask = () => {
             method="POST"
             className="flex flex-col items-center justify-center min-h-screen"
           >
-            <div className="mb-4 text-3xl">Enter Your Company Details</div>
+            <div className="mb-4 text-3xl">assign a new task</div>
             <br />
             <div className="w-full max-w-md">
               <div className="mb-4">
@@ -122,24 +121,7 @@ const CreateTask = () => {
     </div>
   
               </div>
-              <div className="mb-4">
-                <label htmlFor="status" className="block text-xl">
-                  Status
-                </label>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="status"
-                    checked={status}
-                    onChange={(e) => setStatus(e.target.checked)}
-                    className="border border-gray-300 rounded p-2 mr-2"
-                  />
-                  <label htmlFor="status" className="text-sm">
-                    completed
-                  </label>
-                </div>
-              </div>
-              {/* /* //---- */}
+              
               <div className="mb-4">
   <label htmlFor="status" className="block text-xl">
     Status:
@@ -160,7 +142,7 @@ const CreateTask = () => {
   </select>
 </div>
               
-              {/* //---- */ }
+             
               <button
                 type="submit"
                 className="bg-blue-500 text-white rounded px-4 py-2"
