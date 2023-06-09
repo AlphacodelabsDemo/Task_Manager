@@ -11,6 +11,8 @@ const CreateTask = () => {
   const [status, setStatus] = useState(false);
   const [dueDate, setDueDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
+  const statusOptions = ['todo', 'doing', 'done']; ////------
+  const [updatedStatus, setUpdatedStatus] = useState('');
 
   const onChange = (date) => {
     setDueDate(date);
@@ -46,6 +48,7 @@ const CreateTask = () => {
           aim,
           dueDate: formattedDueDate,
           status,
+          updatedStatus
         },
         {
           headers: {
@@ -136,6 +139,28 @@ const CreateTask = () => {
                   </label>
                 </div>
               </div>
+              {/* /* //---- */}
+              <div className="mb-4">
+  <label htmlFor="status" className="block text-xl">
+    Status:
+  </label>
+  <select
+    id="status"
+    value={updatedStatus}
+    onChange={(e) => setUpdatedStatus(e.target.value)}
+    className="border border-gray-300 rounded p-2 w-full"
+    required
+  >
+    <option value="">Select status</option>
+    {statusOptions.map((option) => (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    ))}
+  </select>
+</div>
+              
+              {/* //---- */ }
               <button
                 type="submit"
                 className="bg-blue-500 text-white rounded px-4 py-2"
