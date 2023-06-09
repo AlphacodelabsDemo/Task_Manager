@@ -1,7 +1,9 @@
 // Import required modules
 const express = require("express");
 const AuthRoutes = require("./routes/authRoutes");
-const TaskRoutes = require('./routes/taskRoutes')
+const TaskRoutes = require("./routes/taskRoutes");
+const ProjectRoutes= require("./routes/projectRoutes")
+
 // Import database connection function
 const dbConnection = require("./config/database");
 
@@ -22,7 +24,8 @@ app.use(cors());
 
 //routes
 app.use('/api/auth',AuthRoutes);
-app.use('/api/tasks',TaskRoutes)
+app.use('/api/tasks',TaskRoutes);
+app.use('/api/project', ProjectRoutes);
 
 // Get the port from environment variables
 const PORT = process.env.PORT || 8080; // Provide a default port if not specified in the environment
