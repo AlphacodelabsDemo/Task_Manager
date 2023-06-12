@@ -1,34 +1,13 @@
 const mongoose = require("mongoose");
 const moment = require('moment-timezone');
 
-// const taskSchema = new mongoose.Schema({
-//   user: {
-//     type:mongoose.Schema.Types.ObjectId  ,  
-//     ref: "User",
-//     required: true
-//   },
-//   description: {
-//     type: String,
-//     required: true
-//   },
-//   dueDate: {
-//     type: String,
-//     required: true
-//   },
-//   completed: {
-//     type: Boolean,
-//     default: false
-//   }
-// }, {
-//   timestamps: true
-// });
 
 const taskSchema = new mongoose.Schema({
-  user: {
-    type:mongoose.Schema.Types.ObjectId  ,  
-    ref: "User",
-    required: true
-  },
+  // user: {
+  //   type:mongoose.Schema.Types.ObjectId  ,  
+  //   ref: "User",
+  //   required: true
+  // },
   
   aim: {
     type: String,
@@ -37,14 +16,18 @@ const taskSchema = new mongoose.Schema({
   dueDate: {
     type: String,
     required: true
-  },
-  status: {
-    type: Boolean,
-    default: false
   }
-, taskCreated : { type: String, 
+, 
+updatedStatus:{
+  type:String,
+  default:false
+},
+taskCreated : { 
+  type: String, 
   default: moment().tz('Asia/Kolkata').format() 
-}});
+}
+
+});
 
 const Task = mongoose.model("Task", taskSchema);
 module.exports = Task;
