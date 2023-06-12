@@ -25,15 +25,16 @@ const deleteTask = async (req,res) => {
 
 const postTask= async (req, res) => {
   try {
-    const { aim, dueDate, completed } = req.body;
-    const user = req.user._id;
+    const { aim, dueDate ,updatedStatus} = req.body;
+    // const user = req.user._id;
 
     // Create a new task using the Task model
     const task = new Task({
-      user,
+      // user,
+      
       aim,
       dueDate,
-      completed
+      updatedStatus
     });
     
 
@@ -83,7 +84,7 @@ const updateTask = async (req, res) => {
   
   //get user task
 
-  const getTask = async (req, res) => {
+  const getUserTask = async (req, res) => {
     try {
       const tasks = await Task.find({ user: req.user.id });
       res.status(200).json({ tasks, status: true, msg: "Tasks found successfully.." });
@@ -99,5 +100,5 @@ const updateTask = async (req, res) => {
 
 
 module.exports = {
-    deleteTask ,updateTask, postTask, getTasks, getTask
+    deleteTask ,updateTask, postTask, getTasks, getUserTask
 }
