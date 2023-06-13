@@ -7,12 +7,13 @@ const router = express.Router()
 
 
 //Delete a task
-////verifyToken,
-router.post("/create", postTask);
+
+
+router.post("/create",verifyToken, postTask);
 router.delete('/:id',deleteTask);
 router.put('/:id',updateTask);
-router.get("/",  getTasks);  //verifyToken,
-router.get("/:id",  getTasks);  //verifyToken, get task by id
+router.get("/",verifyToken, getTasks);  
+router.get("/:id",  getTasks);  
 router.get("/task", verifyToken, getUserTask);
 
 module.exports = router;

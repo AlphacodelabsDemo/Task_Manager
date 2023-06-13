@@ -3,11 +3,11 @@ const moment = require('moment-timezone');
 
 
 const taskSchema = new mongoose.Schema({
-  // user: {
-  //   type:mongoose.Schema.Types.ObjectId  ,  
-  //   ref: "User",
-  //   required: true
-  // },
+  user: {
+    type:mongoose.Schema.Types.ObjectId  ,  
+    ref: "User",
+    required: true
+  },
   
   aim: {
     type: String,
