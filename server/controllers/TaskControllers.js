@@ -25,14 +25,14 @@ const deleteTask = async (req,res) => {
 
 const postTask= async (req, res) => {
   try {
-    const { aim, dueDate ,updatedStatus} = req.body;
+    const { aim,assignees, dueDate ,updatedStatus} = req.body;
     const user = req.user._id;
 
     // Create a new task using the Task model
     const task = new Task({
       user,
-      
       aim,
+      assignees,
       dueDate,
       updatedStatus
     });
@@ -70,18 +70,34 @@ const updateTask = async (req, res) => {
   
     res.status(200).json(updatedTask);
   };
-
-  // Get all tasks for a user
+///-----------
+// Get all tasks for a user
   const getTasks = async (req, res) => {
     try {
-      const tasks = await Task.find({});
-      res.status(200).json({ tasks, status: true, msg: "Tasks found successfully.." });
+      const { assignees, updatedStatus, dueDate } = req.query;
+  
+      const query = {};
+  
+      if (assignees) {
+        query.assignees = { $regex: assignees, $options: 'i' };
+      }
+  
+      if (updatedStatus) {
+        query.updatedStatus = { $regex: updatedStatus, $options: 'i' };
+      }
+  
+      if (dueDate) {
+        query.dueDate = { $regex: dueDate, $options: 'i' };
+      }
+  
+      const tasks = await Task.find(query);
+      res.status(200).json({ tasks, status: true, msg: "Tasks found successfully." });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ status: false, msg: "Internal Server Error" });
     }
   };
-  
+
   //get user task
 
   const getUserTask = async (req, res) => {
@@ -93,12 +109,32 @@ const updateTask = async (req, res) => {
       return res.status(500).json({ status: false, msg: "Internal Server Error" });
     }
   };
-  
-  
-  
+
+
+const getTaskById = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid ID, no such task" });
+  }
+
+  try {
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    res.status(200).json(task);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch the task" });
+  }
+};
+
 
 
 
 module.exports = {
-    deleteTask ,updateTask, postTask, getTasks, getUserTask
+    deleteTask ,updateTask, postTask, getTasks, getUserTask,getTaskById,
 }

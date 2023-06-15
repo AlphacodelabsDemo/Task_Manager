@@ -13,14 +13,21 @@ const taskSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  assignees: {
+    type: String,
+    required: true,
+    index:true
+  },
   dueDate: {
     type: String,
-    required: true
+    required: true,
+    index:true
   }
 , 
 updatedStatus:{
   type:String,
-  default:false
+  default:false,
+  index:true
 },
 taskCreated : { 
   type: String, 
