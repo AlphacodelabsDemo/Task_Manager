@@ -1,2 +1,3 @@
-# Task_Manager
-MERN application to managae tasks in an organization. 
+
+#added a new page Task.jsx
+client-->src-->pages-->Task.jsx

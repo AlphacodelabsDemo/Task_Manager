@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes, } from "react-router-dom";
 import LandingPage from './pages/LandingPage';
 import Signup from './pages/auth/Signup';
 import Signin from './pages/auth/Signin';
+import Task from './pages/Task';
 import Profile from './pages/profile';
 import Error from './pages/auth/error';
 import { saveProfile } from "./store/actions/authActions";
@@ -31,6 +32,7 @@ function App(){
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/signin' element={<Signin/>} />
           <Route path='/profile' element={<Profile/>}/>
+          <Route path='/task' element={<Task/>}/>
           <Route path='*' element={<Error/>}/>
         </Routes>
       </BrowserRouter>

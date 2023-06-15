@@ -8,9 +8,10 @@ import {MdDoneOutline} from 'react-icons/md';
 const CreateTask = () => {
   const navigate = useNavigate();
   const [aim, setAim] = useState('');
+  const [assignees, setAssignees] = useState('');
   const [dueDate, setDueDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
-  const statusOptions = ['todo', 'doing', 'done']; ////------
+  const statusOptions = ['Todo', 'In Progress', 'Done']; ////------
   const [updatedStatus, setUpdatedStatus] = useState('');
 
   const onChange = (date) => {
@@ -45,8 +46,8 @@ const CreateTask = () => {
         'http://localhost:8081/api/tasks/create',
         {
           aim,
+          assignees,
           dueDate: formattedDueDate,
-          
           updatedStatus
         },
         {
@@ -59,9 +60,8 @@ const CreateTask = () => {
 
       // Reset the form and set the submitted flag
       setAim('');
-    
+      setAssignees('');
       setDueDate(new Date());
-      
       window.location.reload();
       
 
@@ -72,7 +72,7 @@ const CreateTask = () => {
   };
 
   return (
-    <div>
+    <div className='bg-white'>
       
         <>
           <form
@@ -93,6 +93,21 @@ const CreateTask = () => {
                   value={aim}
                   onChange={(e) => setAim(e.target.value)}
                   required
+                  maxLength={220}
+                  className="border border-gray-300 rounded p-2 w-full"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="aim" className="block text-xl">
+                  Assignees:
+                </label>
+                <input
+                  type="text"
+                  id="assignees"
+                  value={assignees}
+                  onChange={(e) => setAssignees(e.target.value)}
+                  required
+                  maxLength={25}
                   className="border border-gray-300 rounded p-2 w-full"
                 />
               </div>
