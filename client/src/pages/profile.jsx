@@ -1,10 +1,18 @@
+import React from 'react';
+import HomeLayout from '../layouts/HomeLayout';
+import CreateTask from '../components/tasks/CreateTask';
+import TaskList from '../components/tasks/TaskList';
 
-
-const profile = () => {
+function Profile() {
   return (
-    profile 
-  )
+    <>
+     <HomeLayout> 
+      <CreateTask/>
+      <TaskList/>
+    </HomeLayout> 
+    </>
+
+  );
 }
 
-export default profile
-
+export default Profile;
