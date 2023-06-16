@@ -53,6 +53,7 @@ A MERN application to manage tasks in an organization.
 
 
 
+
 ## Dependencies
 
 Following are the major dependencies of the project:
@@ -65,6 +66,9 @@ Following are the major dependencies of the project:
 - react-toastify
 - redux
 - redux-thunk
+- lord-icon-element
+- lottie-web
+- react-icons
 
 
 ## Installation and Setup

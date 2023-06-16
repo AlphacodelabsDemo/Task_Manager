@@ -1,11 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.title {
+  animation: tilt 2s infinite linear;
+}
+
+@keyframes color-change {
+  0% { color: black; }
+  50% { color: skyblue; }
+  100% { color: black; }
+  100% { color: blue; }
+}
+
+.animate-color-change {
+  animation: color-change 2s infinite;
+}
 
 
 
 body 
 {
   font-family: 'Roboto', sans-serif;
+  background-color: aliceblue;
   
 }

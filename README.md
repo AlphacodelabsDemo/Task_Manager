@@ -1,3 +1,7 @@
+
+
+
+
 # Task_Manager
 MERN application to managae tasks in an organization. 
 
@@ -194,3 +198,4 @@ Inside frontend folder:
 - `npm run build`: Builds the frontend for production to the build folder
 - `npm test`: Launches the test runner in the interactive watch mode
 - `npm run eject`: This will remove the single build dependency from the frontend.
+
