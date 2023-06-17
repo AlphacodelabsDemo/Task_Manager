@@ -5,14 +5,13 @@ import TaskList from '../components/tasks/TaskList';
 
 function Task() {
   return (
-   <>
-     {/* <HomeLayout> */}
-     
+    <>
+     <HomeLayout> 
       <CreateTask/>
       <TaskList/>
-    {/* </HomeLayout> */}
+    </HomeLayout> 
     </>
-    
+
   );
 }
 

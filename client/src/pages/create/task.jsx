@@ -1,14 +1,17 @@
 import React from "react";
 import HomeLayout from "../../layouts/HomeLayout";
+import CreateTask from '../../components/tasks/CreateTask';
+import TaskList from '../../components/tasks/TaskList';
 
-const Task = () => {
+const TaskPage = () => {
     return(
         <>
-        <HomeLayout>
-           <h1> All tasks will be added here</h1>
-        </HomeLayout>    
+    <HomeLayout> 
+        <CreateTask/>
+        <TaskList/>
+    </HomeLayout> 
         </>
     )
 }
 
-export default Task
+export default TaskPage

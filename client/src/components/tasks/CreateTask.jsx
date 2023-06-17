@@ -1,22 +1,51 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Modal, Backdrop, Fade, Button, TextField, Select, MenuItem } from '@mui/material';
 import Calendar from 'react-calendar';
-import {SlCalender} from 'react-icons/sl';
-import {MdDoneOutline} from 'react-icons/md';
+import { FiCalendar } from 'react-icons/fi';
+import { MdDone } from 'react-icons/md';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import dayjs from 'dayjs';
 
 const CreateTask = () => {
   const navigate = useNavigate();
-  const [aim, setAim] = useState('');
-  const [assignees, setAssignees] = useState('');
-  const [dueDate, setDueDate] = useState(new Date());
-  const [showCalendar, setShowCalendar] = useState(false);
-  const statusOptions = ['Todo', 'In Progress', 'Done']; ////------
-  const [updatedStatus, setUpdatedStatus] = useState('');
+  const [formValues, setFormValues] = useState({
+    aim: '',
+    assignees: '',
+    dueDate: dayjs().toDate(),
+    updatedStatus: '',
+  });
 
-  const onChange = (date) => {
-    setDueDate(date);
+  const [showModal, setShowModal] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+
+  const statusOptions = ['Todo', 'In Progress', 'Done'];
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
   };
+
+  const handleDateChange = (date) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      dueDate: date,
+    }));
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const handleOpenCalendar = () => {
     setShowCalendar(true);
   };
@@ -25,30 +54,27 @@ const CreateTask = () => {
     setShowCalendar(false);
   };
 
-  const formatDate = (date) => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Retrieve the token from local storage
-      const token = localStorage.getItem('token');
+      const { aim, assignees, dueDate, updatedStatus } = formValues;
 
-      // Convert the dueDate to the desired format
+      if (!aim || !assignees || !dueDate || !updatedStatus) {
+        toast.error('Please fill in all the required fields.');
+        return;
+      }
+
       const formattedDueDate = formatDate(dueDate);
 
-      // Send form data to the server with the token included in the headers
+      const token = localStorage.getItem('token');
+
       await axios.post(
         'http://localhost:8081/api/tasks/create',
         {
           aim,
           assignees,
           dueDate: formattedDueDate,
-          updatedStatus
+          updatedStatus,
         },
         {
           headers: {
@@ -58,118 +84,159 @@ const CreateTask = () => {
         }
       );
 
-      // Reset the form and set the submitted flag
-      setAim('');
-      setAssignees('');
-      setDueDate(new Date());
-      window.location.reload();
-      
+      setFormValues({
+        aim: '',
+        assignees: '',
+        dueDate: dayjs().toDate(),
+        updatedStatus: '',
+      });
 
-      navigate('/profile');
+      handleCloseModal();
+      // navigate('/profile');
+      toast.success('Task created successfully.');
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error('An error occurred while creating the task. Please try again.');
     }
   };
 
+  const formatDate = (date) => {
+    return dayjs(date).format('DD/MM/YYYY');
+  };
+
   return (
-    <div className='bg-white'>
-      
-        <>
-          <form
-            onSubmit={handleSubmit}
-            method="POST"
-            className="flex flex-col items-center justify-center min-h-screen"
-          >
-            <div className="mb-4 text-3xl">assign a new task</div>
-            <br />
-            <div className="w-full max-w-md">
+    <div className="bg-white flex justify-center">
+      <Button
+        onClick={handleOpenModal}
+        variant="contained"
+        color="primary"
+        sx={{ width: '200px', height: '50px' }}
+      >
+        Create Task
+      </Button>
+      <Modal
+        open={showModal}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+        className="flex justify-center items-center"
+        style={{ background: 'rgba(0, 0, 0, 0.5)' }}
+      >
+        <Fade in={showModal}>
+          <div className="bg-white rounded-lg p-8 sm:w-96 md:w-128 z-30">
+            <h2 className="text-3xl mb-4">Assign a new task</h2>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="aim" className="block text-xl">
                   Description:
                 </label>
-                <input
+                <TextField
                   type="text"
                   id="aim"
-                  value={aim}
-                  onChange={(e) => setAim(e.target.value)}
+                  name="aim"
+                  value={formValues.aim}
+                  onChange={handleInputChange}
                   required
                   maxLength={220}
-                  className="border border-gray-300 rounded p-2 w-full"
+                  variant="outlined"
+                  fullWidth
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="aim" className="block text-xl">
+                <label htmlFor="assignees" className="block text-xl">
                   Assignees:
                 </label>
-                <input
+                <TextField
                   type="text"
                   id="assignees"
-                  value={assignees}
-                  onChange={(e) => setAssignees(e.target.value)}
+                  name="assignees"
+                  value={formValues.assignees}
+                  onChange={handleInputChange}
                   required
                   maxLength={25}
-                  className="border border-gray-300 rounded p-2 w-full"
+                  variant="outlined"
+                  fullWidth
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="headQuarter" className="block text-xl">
+                <label htmlFor="dueDate" className="block text-xl">
                   Due Date:
                 </label>
-                <input
-                  type="text"
-                  id="dueDate"
-                  value={formatDate(dueDate)}
-                  onChange={(e) => setDueDate(new Date(e.target.value))}
-                  required
-                  className="border border-gray-300 rounded p-2 w-full"
-                />
-               <div>
-      <div>
-        <button onClick={handleOpenCalendar}><SlCalender/></button>
-      </div>
-      {showCalendar && (
-        <div>
-          <Calendar onChange={onChange} value={dueDate} />
-          <button onClick={handleCloseCalendar}><MdDoneOutline/></button>
-        </div>
-      )}
-    </div>
-  
+                <div className="relative">
+                  <TextField
+                    type="text"
+                    id="dueDate"
+                    name="dueDate"
+                    value={formatDate(formValues.dueDate)}
+                    onChange={handleInputChange}
+                    required
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      endAdornment: (
+                        <button
+                          type="button"
+                          onClick={handleOpenCalendar}
+                          className="absolute top-0 right-0 flex items-center justify-center w-10 h-full bg-blue-500 text-white rounded-r"
+                        >
+                          <FiCalendar />
+                        </button>
+                      ),
+                    }}
+                  />
+                  {showCalendar && (
+                    <div className="absolute top-full left-0 mt-2 p-2 bg-white border border-gray-300 rounded z-20">
+                      <Calendar onChange={handleDateChange} value={formValues.dueDate} />
+                      <button
+                        onClick={handleCloseCalendar}
+                        className="block w-full mt-2 bg-blue-500 text-white rounded px-4 py-2 text-center"
+                      >
+                        <MdDone />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-              
               <div className="mb-4">
-  <label htmlFor="status" className="block text-xl">
-    Status:
-  </label>
-  <select
-    id="status"
-    value={updatedStatus}
-    onChange={(e) => setUpdatedStatus(e.target.value)}
-    className="border border-gray-300 rounded p-2 w-full"
-    required
-  >
-    <option value="">Select status</option>
-    {statusOptions.map((option) => (
-      <option key={option} value={option}>
-        {option}
-      </option>
-    ))}
-  </select>
-</div>
-              
-             
-              <button
-                type="submit"
-                className="bg-blue-500 text-white rounded px-4 py-2"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-        </>
-      
-        <p>Form submitted successfully!</p>
-      
+                <label htmlFor="status" className="block text-xl">
+                  Status:
+                </label>
+                <Select
+                  id="status"
+                  name="updatedStatus"
+                  value={formValues.updatedStatus}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 rounded p-2 w-full"
+                  required
+                >
+                  <MenuItem value="">Select status</MenuItem>
+                  {statusOptions.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+              <div className="flex justify-end space-x-2">
+                <Button type="submit" variant="contained" color="primary" className="mr-2">
+                  Submit
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleCloseModal}
+                  variant="contained"
+                  color="secondary"
+                >
+                  Close
+                </Button>
+              </div>
+            </form>
+          </div>
+        </Fade>
+      </Modal>
     </div>
   );
 };

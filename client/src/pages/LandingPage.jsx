@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
-import TaskForm from '../components/tasks/TaskForm';
 import HomeLayout from '../layouts/HomeLayout';
+import TaskPage from './create/task';
 
 
 const LandingPage = () => {
@@ -42,7 +42,7 @@ const LandingPage = () => {
       ) : (
         <>
           <h1 className='text-lg mt-8 mx-8 border-b border-b-gray-300'>Welcome {authState.user.firstName}</h1>
-            <TaskForm />
+            <TaskPage/>
           </>
         )}
       </HomeLayout>
