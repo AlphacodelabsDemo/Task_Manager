@@ -10,6 +10,7 @@ import Error from './pages/auth/error';
 import { saveProfile } from "./store/actions/authActions";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Project from './pages/Project';
 
 
 function App(){
@@ -33,6 +34,7 @@ function App(){
           <Route path='/signin' element={<Signin/>} />
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/task' element={<Task/>}/>
+          <Route path='/project' element={<Project/>}/>
           <Route path='*' element={<Error/>}/>
         </Routes>
       </BrowserRouter>
